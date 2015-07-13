@@ -35,8 +35,10 @@ main(void)
 {
 	_pubsub_config.impl = PUBSUB_IMPL_PUBNUB;
 
+	printf( "TRACE 1\n");
 	pubsub_create(&_pubsub_config, &_pubsub_callbacks);
 	pubsub_start();
 	pubsub_destroy();
+	printf("TRACE 2 \n");
 	return EXIT_SUCCESS;
 }
