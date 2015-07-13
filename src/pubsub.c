@@ -6,6 +6,7 @@
  */
 
 #include "pubsub.h"
+
 #include "pubsub_impl.h"
 #include "pubsub_impl_pubnub.h"
 

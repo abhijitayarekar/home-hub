@@ -5,8 +5,8 @@
  *      Author: abhijit
  */
 
-#ifndef PLUGINS_INCLUDE_PUBSUB_IMPL_H_
-#define PLUGINS_INCLUDE_PUBSUB_IMPL_H_
+#ifndef PUBSUB_IMPL_INCLUDE_PUBSUB_IMPL_H_
+#define PUBSUB_IMPL_INCLUDE_PUBSUB_IMPL_H_
 
 #include "pubsub_common.h"
 
@@ -26,4 +26,4 @@ typedef struct {
 	pubsub_impl_ret_t (*destroy)();
 } pubsub_impl_ops_t;
 
-#endif /* PLUGINS_INCLUDE_PUBSUB_IMPL_H_ */
+#endif /* PUBSUB_IMPL_INCLUDE_PUBSUB_IMPL_H_ */

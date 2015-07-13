@@ -10,7 +10,7 @@
 #include "pubnub.h"
 #include "pubnub-sync.h"
 
-#include "pubsub_impl.h"
+#include "../../../pubsub-impl/include/pubsub_impl.h"
 
 static struct pubnub *_p_pubnub = NULL;
 static struct pubnub_sync *_p_sync = NULL;
