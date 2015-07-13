@@ -1,10 +1,11 @@
-CC ?= gcc # C compiler
+include $(TOPDIR)/make.config
+
 CFLAGS = -fPIC -Wall -Wextra -O3 -g 
 CFLAGS += $(HOME_HUB_INCLUDES) 
 CFLAGS += -I/usr/local/include -I/usr/include/json # C flags
 LDFLAGS = -shared -L/usr/local/lib -lpubnub -ljson -lcurl -lcrypto -levent # linking flags
 RM = rm -f  # rm command
-TARGET_LIB = libpubsub_plugin_pubnub.so # target lib
+TARGET_LIB = $(PLUGINS_BIN_DIR)/pubnubimpl.a # target lib
  
 SRCS = pubnub.c # source files
 OBJS = $(SRCS:.c=.o)

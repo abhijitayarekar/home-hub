@@ -13,38 +13,30 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "pubsub.h"
+
+static void _on_publish(char* channel, json_object *msg) {
+
+}
+
+static void _on_message(char* channel, json_object *msg) {
+
+}
+
+static pubsub_callback_t _pubsub_callbacks = {
+		_on_publish,
+		_on_message
+};
+
+static pubsub_config_t _pubsub_config;
 
 int
 main(void)
 {
-	/* Subscribe */
+	_pubsub_config.impl = PUBSUB_IMPL_PUBNUB;
 
-	do {
-		const char *channels[] = { "chat", "demo" };
-		pubnub_subscribe_multi(
-				/* struct pubnub */ p,
-				/* list of channels */ channels,
-				/* number of listed channels */ 2,
-				/* default timeout */ -1,
-				/* callback; sync needs NULL! */ NULL,
-				/* callback data */ NULL);
-		if (pubnub_sync_last_result(sync) != PNR_OK)
-			return EXIT_FAILURE;
-		msg = pubnub_sync_last_response(sync);
-		if (json_object_array_length(msg) == 0) {
-			printf("pubnub subscribe ok, no news\n");
-		} else {
-			char **msg_channels = pubnub_sync_last_channels(sync);
-			for (int i = 0; i < json_object_array_length(msg); i++) {
-				json_object *msg1 = json_object_array_get_idx(msg, i);
-				printf("pubnub subscribe [%s]: %s\n", msg_channels[i], json_object_get_string(msg1));
-			}
-		}
-		json_object_put(msg);
-		sleep(1);
-	} while (1);
-
-
-	pubnub_done(p);
+	pubsub_create(&_pubsub_config, &_pubsub_callbacks);
+	pubsub_start();
+	pubsub_destroy();
 	return EXIT_SUCCESS;
 }
