@@ -10,7 +10,7 @@
 #include "pubnub.h"
 #include "pubnub-sync.h"
 
-#include "../../../pubsub-impl/include/pubsub_impl.h"
+#include "pubsub_impl.h"
 
 static struct pubnub *_p_pubnub = NULL;
 static struct pubnub_sync *_p_sync = NULL;
@@ -37,7 +37,8 @@ static pubsub_impl_ret_t _pubnub_start() {
 	char **pp_msg_channels;
 	const char *channels[] = { "chat", "demo" };
 
-	if (!_p_pubnub || _p_sync) {
+	if (!_p_pubnub || !_p_sync) {
+		printf("No pubnub instance\n");
 		return PUBSUB_IMPL_RET_ERR_NO_HANDLE;
 	}
 
@@ -50,8 +51,10 @@ static pubsub_impl_ret_t _pubnub_start() {
 				/* default timeout */ -1,
 				/* callback; sync needs NULL! */ NULL,
 				/* callback data */ NULL);
-		if (pubnub_sync_last_result(_p_sync) != PNR_OK)
+		if (pubnub_sync_last_result(_p_sync) != PNR_OK) {
+			printf("pubnub subscribe error\n");
 			return PUBSUB_IMPL_RET_ERR_NO_SUBSCRIBE;
+		}
 
 		p_msgs = pubnub_sync_last_response(_p_sync);
 		if (json_object_array_length(p_msgs) == 0) {
