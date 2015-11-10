@@ -13,8 +13,12 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "pubsub.h"
+//#include "pubsub.h"
+#include "device.h"
 
+using namespace HomeHub;
+
+#if 0
 static void _on_publish(char* channel, json_object *msg) {
 
 }
@@ -29,10 +33,12 @@ static pubsub_callback_t _pubsub_callbacks = {
 };
 
 static pubsub_config_t _pubsub_config;
+#endif
 
 int
 main(void)
 {
+#if 0  
 	_pubsub_config.impl = PUBSUB_IMPL_PUBNUB;
 
 	printf( "TRACE 1\n");
@@ -40,5 +46,8 @@ main(void)
 	pubsub_start();
 	pubsub_destroy();
 	printf("TRACE 2 \n");
+#endif
+    Device d;
+    d.dump();
 	return EXIT_SUCCESS;
 }
