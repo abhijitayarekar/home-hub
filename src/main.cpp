@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 //#include "pubsub.h"
+#include "home.h"
 #include "device.h"
 
 using namespace HomeHub;
@@ -49,5 +50,8 @@ main(void)
 #endif
     Device d;
     d.dump();
+
+    Home h;
+    h.dump();
 	return EXIT_SUCCESS;
 }

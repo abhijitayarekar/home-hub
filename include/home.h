@@ -18,8 +18,13 @@
 #ifndef HOME_H
 #define HOME_H
 
-#include “homehub.h”
-#include “device.h”
+#include "homehub.h"
+#include "device.h"
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 namespace HomeHub
 {
@@ -28,8 +33,11 @@ namespace HomeHub
     private:
     unsigned int id;
     string name;
-    std::vector<Device> devices;
-
+    std::vector<Device>devices;
+    public:
+    Zone() {
+    	id = 0;
+    }
   };
 
   class Scene
@@ -39,6 +47,10 @@ namespace HomeHub
     string name;
     std::vector<Device> devices;
 
+    public:
+    Scene() {
+    	id = 0;
+    }
   };
    
   class Home
@@ -49,15 +61,39 @@ namespace HomeHub
     std::vector<Zone> scenes;
 
     public:
-    Home();
-    Home(const Home& other);
-    ~Home();
-    bool operator==(const Home& other);
-    void dump();
-    HomeHub::ret_t start();
-    HomeHub::ret_t stop();
-    HomeHub::ret_t restart();
+
+    Home() {
+    	id = 0;
+    }
+
+    Home(const Home& other) {
+    	id = other.id;
+    }
+
+    ~Home() {
+
+    }
+
+    bool operator==(const Home& other) {
+    	return id == other.id;
+    }
+
+    void dump() {
+    	cout<<"id:"<<id<<endl;
+    }
+
+    HomeHub::ret_t start() {
+    	return no_error;
+    }
+
+    HomeHub::ret_t stop() {
+    	return no_error;
+    }
+
+    HomeHub::ret_t restart() {
+    	return no_error;
+    }
   };
-};
+}
 
 #endif // HOME_H

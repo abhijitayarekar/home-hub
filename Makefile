@@ -5,8 +5,8 @@ CC=$(CROSS_COMPILE)g++
 BIN_DIR=$(TOPDIR)/bin
 
 #CFLAGS=-std=gnu99 -Wall -ggdb3 -O3 -I$(TOPDIR)/include -I$(TOPDIR)/pubsub-impl/include
-CPPFLAGS=-Wall -I$(TOPDIR)/include
-SRCS=src/main.c src/device.cpp
+CPPFLAGS=-Wc++11-extensions -Wall -I$(TOPDIR)/include
+SRCS=src/main.cpp src/device.cpp
 
 #pubnub flags and srcs start
 #CFLAGS+=-I/usr/local/include -I/usr/include/json # C flags

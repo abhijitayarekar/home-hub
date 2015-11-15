@@ -18,7 +18,7 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-#include “homehub.h”
+#include "homehub.h"
 
 namespace HomeHub
 {
@@ -27,12 +27,12 @@ namespace HomeHub
     public:
     enum dev_type
     {
-	UNKNOWN, IP, ZIGBEE, BT, ZWAVE
+    	UNKNOWN, IP, ZIGBEE, BT, ZWAVE
     };
 
     enum dev_state
     {
-	OFF, STARTING, ON, STOPPING
+    	OFF, STARTING, ON, STOPPING
     };
 
     private:
@@ -50,6 +50,6 @@ namespace HomeHub
     HomeHub::ret_t stop();
     HomeHub::ret_t restart();
   };
-};
+}
 
 #endif // DEVICE_H

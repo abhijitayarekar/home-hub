@@ -17,12 +17,18 @@
 
 #ifndef HOMEHUB_H
 #define HOMEHUB_H
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 namespace HomeHub
 {
   enum ret_t
   {
-	no_error;
+	no_error
   };
-};
+}
 
 #endif // HOMEHUB_H

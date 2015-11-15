@@ -23,13 +23,16 @@ using namespace std;
 
 HomeHub::Device::Device()
 {
-  id = 0;
-  type = UNKNOWN;
+	id = 0;
+	type = UNKNOWN;
+	state = dev_state::OFF;
 }
 
 HomeHub::Device::Device(const Device& other)
 {
-
+	id = 0;
+	type = other.type;
+	state = other.state;
 }
 
 HomeHub::Device::~Device()
@@ -44,5 +47,5 @@ bool HomeHub::Device::operator==(const Device& other)
 
 void HomeHub::Device::dump()
 {
-  cout<<"Hello"<<endl;
+  cout<<"id:"<<id<<" type:"<<type<<" state:"<<state<<endl;
 }
