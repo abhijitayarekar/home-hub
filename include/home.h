@@ -15,36 +15,44 @@
  * 
  */
 
-#ifndef DEVICE_H
-#define DEVICE_H
+#ifndef HOME_H
+#define HOME_H
 
 #include “homehub.h”
+#include “device.h”
 
 namespace HomeHub
 {
-  class Device
+  class Zone
   {
-    public:
-    enum dev_type
-    {
-	UNKNOWN, IP, ZIGBEE, BT, ZWAVE
-    };
-
-    enum dev_state
-    {
-	OFF, STARTING, ON, STOPPING
-    };
-
     private:
     unsigned int id;
-    dev_type type;
-    dev_state state;
+    string name;
+    std::vector<Device> devices;
+
+  };
+
+  class Scene
+  {
+    private:
+    unsigned int id;
+    string name;
+    std::vector<Device> devices;
+
+  };
+   
+  class Home
+  {
+    private:
+    unsigned int id;
+    std::vector<Zone> zones;
+    std::vector<Zone> scenes;
 
     public:
-    Device();
-    Device(const Device& other);
-    ~Device();
-    bool operator==(const Device& other);
+    Home();
+    Home(const Home& other);
+    ~Home();
+    bool operator==(const Home& other);
     void dump();
     HomeHub::ret_t start();
     HomeHub::ret_t stop();
@@ -52,4 +60,4 @@ namespace HomeHub
   };
 };
 
-#endif // DEVICE_H
+#endif // HOME_H

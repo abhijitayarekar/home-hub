@@ -15,41 +15,14 @@
  * 
  */
 
-#ifndef DEVICE_H
-#define DEVICE_H
-
-#include “homehub.h”
-
+#ifndef HOMEHUB_H
+#define HOMEHUB_H
 namespace HomeHub
 {
-  class Device
+  enum ret_t
   {
-    public:
-    enum dev_type
-    {
-	UNKNOWN, IP, ZIGBEE, BT, ZWAVE
-    };
-
-    enum dev_state
-    {
-	OFF, STARTING, ON, STOPPING
-    };
-
-    private:
-    unsigned int id;
-    dev_type type;
-    dev_state state;
-
-    public:
-    Device();
-    Device(const Device& other);
-    ~Device();
-    bool operator==(const Device& other);
-    void dump();
-    HomeHub::ret_t start();
-    HomeHub::ret_t stop();
-    HomeHub::ret_t restart();
+	no_error;
   };
 };
 
-#endif // DEVICE_H
+#endif // HOMEHUB_H
