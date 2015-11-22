@@ -21,11 +21,12 @@
 
 using namespace std;
 
-HomeHub::Device::Device()
+HomeHub::Device::Device(dev_type type, dev_location loc)
 {
 	id = 0;
-	type = UNKNOWN;
-	state = dev_state::OFF;
+	this->type = type;
+	state = Device::dev_state::OFF;
+	this->loc = loc;		
 }
 
 HomeHub::Device::Device(const Device& other)
@@ -47,5 +48,23 @@ bool HomeHub::Device::operator==(const Device& other)
 
 void HomeHub::Device::dump()
 {
-  cout<<"id:"<<id<<" type:"<<type<<" state:"<<state<<endl;
+  cout<<"id:"<<id<<" type:"<<type<<" state:"<<state<<" loc:"<<loc<<endl;
+}
+
+HomeHub::Bt::Bt(dev_location loc) : Device(dev_type::BT, loc)
+{
+}
+
+HomeHub::Bt::~Bt()
+{
+
+}
+
+HomeHub::XBee::XBee(dev_location loc) : Device(Device::dev_type::ZIGBEE, loc)
+{
+}
+
+HomeHub::XBee::~XBee()
+{
+
 }

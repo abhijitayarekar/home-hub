@@ -79,7 +79,7 @@ namespace HomeHub
     }
 
     void dump() {
-    	cout<<"id:"<<id<<endl;
+    	cout<<"Home id:"<<id<<endl;
     }
 
     HomeHub::ret_t start() {

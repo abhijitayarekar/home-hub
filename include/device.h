@@ -35,13 +35,19 @@ namespace HomeHub
     	OFF, STARTING, ON, STOPPING
     };
 
-    private:
+    enum dev_location
+    {
+      LOCAL, REMOTE  
+    };
+    
+    protected:
     unsigned int id;
     dev_type type;
     dev_state state;
-
+    dev_location loc;
+    
     public:
-    Device();
+    Device(dev_type type=UNKNOWN, dev_location loc=LOCAL);
     Device(const Device& other);
     ~Device();
     bool operator==(const Device& other);
@@ -50,6 +56,25 @@ namespace HomeHub
     HomeHub::ret_t stop();
     HomeHub::ret_t restart();
   };
+  
+  class Bt : public Device
+  {
+    private:
+    
+    public:
+    Bt(dev_location loc=LOCAL);
+    ~Bt();
+  };
+
+  class XBee : public Device
+  {
+    private:
+    
+    public:
+    XBee(dev_location loc=LOCAL) ;
+    ~XBee();
+  };
+
 }
 
 #endif // DEVICE_H

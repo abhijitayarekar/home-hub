@@ -48,10 +48,26 @@ main(void)
 	pubsub_destroy();
 	printf("TRACE 2 \n");
 #endif
-    Device d;
-    d.dump();
-
     Home h;
     h.dump();
+
+    Device dev_local;
+    dev_local.dump();
+	
+	Bt bt_local;
+	bt_local.dump();
+	
+	XBee xbee_local;
+	xbee_local.dump();
+
+    Device dev_remote(HomeHub::Device::UNKNOWN, HomeHub::Device::REMOTE);
+    dev_remote.dump();
+	
+	Bt bt_remote(HomeHub::Bt::REMOTE);
+	bt_remote.dump();
+	
+	XBee xbee_remote(HomeHub::XBee::REMOTE);
+	xbee_remote.dump();
+
 	return EXIT_SUCCESS;
 }
