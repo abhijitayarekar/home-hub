@@ -16,6 +16,8 @@
 //#include "pubsub.h"
 #include "home.h"
 #include "device.h"
+#include "bt.h"
+#include "xbee.h"
 
 using namespace HomeHub;
 

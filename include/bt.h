@@ -15,47 +15,22 @@
  * 
  */
 
-#ifndef DEVICE_H
-#define DEVICE_H
+#ifndef BT_DEVICE_H
+#define BT_DEVICE_H
 
 #include "homehub.h"
+#include "device.h"
 
 namespace HomeHub
-{
-  class Device
+{  
+  class Bt : public Device
   {
-    public:
-    enum dev_type
-    {
-    	UNKNOWN, IP, ZIGBEE, BT, ZWAVE
-    };
-
-    enum dev_state
-    {
-    	OFF, STARTING, ON, STOPPING
-    };
-
-    enum dev_location
-    {
-      LOCAL, REMOTE  
-    };
-    
-    protected:
-    unsigned int id;
-    dev_type type;
-    dev_state state;
-    dev_location loc;
+    private:
     
     public:
-    Device(dev_type type=UNKNOWN, dev_location loc=LOCAL);
-    Device(const Device& other);
-    ~Device();
-    bool operator==(const Device& other);
-    void dump();
-    HomeHub::ret_t start();
-    HomeHub::ret_t stop();
-    HomeHub::ret_t restart();
+    Bt(dev_location loc=LOCAL);
+    ~Bt();
   };
 }
 
-#endif // DEVICE_H
+#endif // BT_DEVICE_H

@@ -50,21 +50,3 @@ void HomeHub::Device::dump()
 {
   cout<<"id:"<<id<<" type:"<<type<<" state:"<<state<<" loc:"<<loc<<endl;
 }
-
-HomeHub::Bt::Bt(dev_location loc) : Device(dev_type::BT, loc)
-{
-}
-
-HomeHub::Bt::~Bt()
-{
-
-}
-
-HomeHub::XBee::XBee(dev_location loc) : Device(Device::dev_type::ZIGBEE, loc)
-{
-}
-
-HomeHub::XBee::~XBee()
-{
-
-}
