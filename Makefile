@@ -1,10 +1,8 @@
-TOPDIR=$(shell pwd)
+export TOPDIR=$(shell pwd)
+export BIN_DIR=$(TOPDIR)/bin
+export CC=$(CROSS_COMPILE)g++
 
-CC=$(CROSS_COMPILE)g++
-
-BIN_DIR=$(TOPDIR)/bin
-
-#CFLAGS=-std=gnu99 -Wall -ggdb3 -O3 -I$(TOPDIR)/include -I$(TOPDIR)/pubsub-impl/include
+CFLAGS=-std=gnu99 -Wall -ggdb3 -O3 -I$(TOPDIR)/include -I$(TOPDIR)/pubsub-impl/include
 CPPFLAGS=-Wc++11-extensions -Wall -I$(TOPDIR)/include
 SRCS=src/main.cpp src/devices/*.cpp
 
@@ -14,11 +12,21 @@ SRCS=src/main.cpp src/devices/*.cpp
 #SRCS+=pubsub-impl/src/pubnub/*.c
 #pubnub flags and srcs end
 
-all:
+all: controller home-hub
+
+prepare-bin:
 	rm -rf $(BIN_DIR)
 	mkdir -p $(BIN_DIR)
+
+controller: prepare-bin
+	$(MAKE) -C controller
+
+controller-clean:
+	$(MAKE) clean -C controller
+
+home-hub: prepare-bin
 	$(CC) $(SRCS) $(CPPFLAGS) $(LDFLAGS) -o $(BIN_DIR)/home-hub
 
-clean:
+clean: controller-clean
 	rm -rf $(BIN_DIR)
 	rm -f *.o
