@@ -24,6 +24,10 @@ int main(void)
 
 	ctrl.start();
 
+	while(1) {
+		usleep(1000);
+	}
+	
 	ctrl.stop();
 
 	return EXIT_SUCCESS;
