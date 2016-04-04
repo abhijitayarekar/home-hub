@@ -1,41 +1,27 @@
 #pragma once
 
-#include <iostream>
 #include <zmq.hpp>
+#include "pubsub.h"
 
 using namespace std;
 
 namespace Controller
 {
-	class Ctrlr
+	class Ctrlr : public PubSubCb
 	{
 	public:
-		Ctrlr() : context (1), socket (context, ZMQ_REP){
-		}
-
-		~Ctrlr() {
-		}
-
-		void start() {
-			if (!this->started) {
-				cout<<"Controller starting"<<endl;
-				socket.bind ("tcp://127.0.0.1:5555");					
-				this->started = true;
-			} 
-			cout<<"Controller started : "<<this->started<<endl;	
-		}
-
-		void stop() {
-			if(this->started) {
-				socket.unbind("tcp://*:5555");
-				this->started = false;
-				cout<<"Controller stopped"<<endl;
-			}
-		}
+		Ctrlr();
+		~Ctrlr();
+		void start();
+		void stop();
 		
 	private:
-		zmq::context_t context;
-		zmq::socket_t socket;
-		bool started;
+		void onMessage(void* p_msg);
+
+	private:
+		zmq::context_t m_context;
+		zmq::socket_t m_socket;
+		bool m_started;
+		PubSub m_pubsub;
 	};
 }
