@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : controller.cpp
+ Name        : worker.cpp
  Author      : Abhijit Ayarekar
  Version     :
  Copyright   : 
- Description : Hello World in C, Ansi-style
+ Description : Worker class handles protocol specific work over socket
  ============================================================================
  */
 
@@ -18,20 +18,39 @@
 
 using namespace Controller;
 
-Ctrlr::Ctrlr() : m_context (1), m_localWorkSocket (m_context, ZMQ_DEALER)
+void Worker::work()
 {
-	m_pubsub.addCb(this);
-}
+	m_worker.connect("inproc://local_work");
 
-Ctrlr::~Ctrlr() 
-{
+	try {
+	    while (true) {
+	        zmq::message_t identity;
+	        zmq::message_t msg;
+	        zmq::message_t copied_id;
+	        zmq::message_t copied_msg;
+	        m_worker.recv(&identity);
+	        m_worker.recv(&msg);
+
+	        int replies = within(5);
+	        for (int reply = 0; reply < replies; ++reply) {
+	            s_sleep(within(1000) + 1);
+	            copied_id.copy(&identity);
+	            copied_msg.copy(&msg);
+	            m_worker.send(copied_id, ZMQ_SNDMORE);
+	            m_worker.send(copied_msg);
+	        }
+	    }
+	}
+	catch (std::exception &e) 
+	{
+	}
 }
 
 void Ctrlr::start() 
 {
 	if (!this->m_started) {
 		cout<<"Controller starting"<<endl;
-		m_localWorkSocket.bind ("inproc://local_work");
+		m_socket.bind ("tcp://127.0.0.1:5555");
 		this->m_started = true;
 		m_pubsub.start();
 	}
@@ -43,7 +62,7 @@ void Ctrlr::stop()
 {
 	if(this->m_started) {
 		m_pubsub.stop();
-		m_localWorkSocket.unbind("inproc://local_work");
+		m_socket.unbind("tcp://127.0.0.1:5555");
 		this->m_started = false;
 		cout<<"Controller stopped"<<endl;
 	}

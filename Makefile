@@ -3,8 +3,9 @@ export BIN_DIR=$(TOPDIR)/bin
 export CC=$(CROSS_COMPILE)g++
 
 CFLAGS=-std=gnu99 -Wall -ggdb3 -O3 -I$(TOPDIR)/include -I$(TOPDIR)/pubsub-impl/include
-CPPFLAGS=-Wc++11-extensions -Wall -I$(TOPDIR)/include
-SRCS=src/main.cpp src/devices/*.cpp
+CPPFLAGS=-std=c++11 -I$(TOPDIR)/include -Wattributes
+SRCS=src/main.cpp
+LDFLAGS += -lzmq -std=c++11
 
 #pubnub flags and srcs start
 #CFLAGS+=-I/usr/local/include -I/usr/include/json # C flags

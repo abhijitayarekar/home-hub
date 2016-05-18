@@ -7,6 +7,7 @@ using namespace std;
 
 namespace Controller
 {
+
 	class Ctrlr : public PubSubCb
 	{
 	public:
@@ -20,8 +21,9 @@ namespace Controller
 
 	private:
 		zmq::context_t m_context;
-		zmq::socket_t m_socket;
+		zmq::socket_t m_localWorkerSocket;
 		bool m_started;
 		PubSub m_pubsub;
+		std::vector<Worker*> m_localWorkers;
 	};
 }
