@@ -16,6 +16,8 @@
 #include "worker.h"
 #include "pubsub.h"
 
+#define _IPC_PATH "ipc:///tmp/hh_local_work_0"
+
 using namespace Controller;
 
 Ctrlr::Ctrlr() : m_context (1), m_localWorkSocket (m_context, ZMQ_DEALER)
@@ -31,7 +33,7 @@ void Ctrlr::start()
 {
 	if (!this->m_started) {
 		cout<<"Controller starting"<<endl;
-		m_localWorkSocket.bind ("inproc://local_work");
+		m_localWorkSocket.bind (_IPC_PATH);
 		this->m_started = true;
 		m_pubsub.start();
 	}
@@ -43,7 +45,7 @@ void Ctrlr::stop()
 {
 	if(this->m_started) {
 		m_pubsub.stop();
-		m_localWorkSocket.unbind("inproc://local_work");
+		m_localWorkSocket.unbind(_IPC_PATH);
 		this->m_started = false;
 		cout<<"Controller stopped"<<endl;
 	}
