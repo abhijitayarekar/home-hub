@@ -1,0 +1,10 @@
+{
+  "name": "web-server",
+  "version": "0.0.0",
+  "description": "WebServer",
+  "main": "server.js",
+  "author": {
+    "name": "aayarekar",
+    "email": "abhijitayarekar@gmail.com"
+  }
+}
