@@ -2,6 +2,7 @@
 
 #include <zmq.hpp>
 #include "pubsub.h"
+#include "worker.h"
 
 using namespace std;
 
