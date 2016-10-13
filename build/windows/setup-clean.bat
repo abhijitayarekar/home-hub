@@ -1,4 +1,4 @@
-rmdir WebServer\nodejs-webserver
-rmdir Controller\src
-rmdir Controller\include
+rmdir WebServer\nodejs-webserver /S /Q
+rmdir Controller\controller /S /Q
+rmdir Controller\include /S /Q
 
