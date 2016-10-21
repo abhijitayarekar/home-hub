@@ -9,9 +9,8 @@
  */
 
 #include <iostream>
-#include <unistd.h>
-#include <signal.h>
 
+#include "zhelpers.hpp"
 #include "controller.h"
 #include "worker.h"
 #include "pubsub.h"
@@ -43,9 +42,11 @@ void Worker::work()
 	}
 	catch (std::exception &e) 
 	{
+		cout << e.what();
 	}
 }
 
+# if 0
 void Ctrlr::start() 
 {
 	if (!this->m_started) {
@@ -97,3 +98,4 @@ int main(void)
 
 	return EXIT_SUCCESS;
 }
+#endif

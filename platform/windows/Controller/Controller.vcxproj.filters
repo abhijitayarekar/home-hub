@@ -24,15 +24,6 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\pubsub.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\worker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="controller\include\controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,35 +51,18 @@
     <ClInclude Include="include\zmq_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="platdep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="app.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AssemblyInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pubsub.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\worker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HomeController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="controller\src\controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="controller\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="controller\src\pubsub.cpp">
@@ -105,5 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.aps" />
+    <None Include="libs\libzmq.dll" />
   </ItemGroup>
 </Project>

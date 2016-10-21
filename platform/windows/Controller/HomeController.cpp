@@ -2,25 +2,23 @@
 
 #include "stdafx.h"
 
+#include "platdep.h"
 #include "controller.h"
 #include "worker.h"
 #include "pubsub.h"
 
-using namespace System;
 using namespace Controller;
 
 static bool keepRunning = true;
 
-int main(array<System::String ^> ^args)
+int main()
 {
-    Console::WriteLine(L"Hello World");
-
 	Ctrlr ctrl;
 
 	ctrl.start();
 
 	while (keepRunning) {
-		_sleep(1000);
+		plat_sleep(1000);
 	}
 
 	ctrl.stop();

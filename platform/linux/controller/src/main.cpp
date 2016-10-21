@@ -4,6 +4,9 @@
 //  it easier to start and stop the example. Each task has its own
 //  context and conceptually acts as a separate process.
 
+#include <unistd.h>
+#include <signal.h>
+
 #include <vector>
 #include <thread>
 #include <memory>
@@ -167,3 +170,30 @@ int main (void)
     getchar();
     return 0;
 }
+
+#if 0
+static bool keepRunning = true;
+static void sig_handler(int signo)
+{
+    if(signo == SIGINT) {
+        keepRunning = false;
+    }
+}
+
+int main(void)
+{
+    Ctrlr ctrl;
+
+    signal(SIGINT, sig_handler);
+
+    ctrl.start();
+
+    while(keepRunning) {
+        usleep(1000);
+    }
+    
+    ctrl.stop();
+
+    return EXIT_SUCCESS;
+}
+#endif

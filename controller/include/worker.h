@@ -3,7 +3,7 @@
 
 namespace Controller
 {
-	enum {
+	typedef enum WorkerType {
 		WORKER_TYPE_UNKNOWN=0,
 		WORKER_TYPE_NET,
 		WORKER_TYPE_ZIGBEE,
