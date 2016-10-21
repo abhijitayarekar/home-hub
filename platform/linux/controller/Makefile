@@ -1,9 +1,23 @@
 
-CXXFLAGS += -Wall -I$(TOPDIR)/include -I$(TOPDIR)/controller/include -std=c++11
-LDFLAGS += -lzmq
+CXXFLAGS += -Wall $(INCS) -I$(TOP_DIR)/controller/include -I$(PLATFORM_DIR)/controller/include -std=c++11
+LDFLAGS += -lzmq -L$(PLATFORM_DIR)/controller/libs -lpthread
 
-all:
-	$(CC) src/*.cpp $(CXXFLAGS) $(LDFLAGS) -o $(BIN_DIR)/controller
+SRCS=	\
+	src/main.cpp \
+	$(TOP_DIR)/controller/src/controller.cpp \
+	$(TOP_DIR)/controller/src/pubsub.cpp \
+	$(TOP_DIR)/controller/src/worker.cpp
 
-clean:
-	rm -f $(BIN_DIR)/controller
+all: controller
+
+prepare-bin:
+	mkdir -p $(BIN_DIR)/controller
+
+controller: prepare-bin
+	$(CC) $(SRCS) $(CXXFLAGS) $(LDFLAGS) -o $(BIN_DIR)/controller/controller
+
+clean-bin:
+	rm -rf $(BIN_DIR)/controller
+
+clean: clean-bin
+	

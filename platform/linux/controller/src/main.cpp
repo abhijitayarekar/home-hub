@@ -1,3 +1,4 @@
+#if 0
 //  Asynchronous client-to-server (DEALER to ROUTER)
 //
 //  While this example runs in a single process, that is to make
@@ -14,6 +15,7 @@
 
 #include <zmq.hpp>
 #include <zhelpers.hpp>
+
 
 //  This is our client task class.
 //  It connects to the server, and then sends a request once per second
@@ -171,7 +173,17 @@ int main (void)
     return 0;
 }
 
-#if 0
+#else
+#include <unistd.h>
+#include <signal.h>
+
+#include "platdep.h"
+#include "controller.h"
+#include "worker.h"
+#include "pubsub.h"
+
+using namespace Controller;
+
 static bool keepRunning = true;
 static void sig_handler(int signo)
 {

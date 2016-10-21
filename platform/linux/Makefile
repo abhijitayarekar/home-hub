@@ -1,11 +1,12 @@
-export TOPDIR=$(shell pwd)
-export BIN_DIR=$(TOPDIR)/bin
+export PLATFORM_DIR=$(shell pwd)
+export TOP_DIR=$(PLATFORM_DIR)/../../
+export BIN_DIR=$(PLATFORM_DIR)/bin
 export CC=$(CROSS_COMPILE)g++
+export INCS=-I$(TOP_DIR)/include
 
-CFLAGS=-std=gnu99 -Wall -ggdb3 -O3 -I$(TOPDIR)/include -I$(TOPDIR)/pubsub-impl/include
-CPPFLAGS=-std=c++11 -I$(TOPDIR)/include -Wattributes
-SRCS=src/main.cpp
-LDFLAGS += -lzmq -std=c++11
+CFLAGS=-std=gnu99 -Wall -ggdb3 -O3 -I$(TOP_DIR)/include -I$(TOP_DIR)/pubsub-impl/include
+CXXFLAGS=-std=c++11 -I$(TOP_DIR)/include -Wattributes
+LDFLAGS += -std=c++11
 
 #pubnub flags and srcs start
 #CFLAGS+=-I/usr/local/include -I/usr/include/json # C flags
@@ -13,10 +14,9 @@ LDFLAGS += -lzmq -std=c++11
 #SRCS+=pubsub-impl/src/pubnub/*.c
 #pubnub flags and srcs end
 
-all: controller home-hub
+all: controller
 
 prepare-bin:
-	rm -rf $(BIN_DIR)
 	mkdir -p $(BIN_DIR)
 
 controller: prepare-bin
@@ -25,9 +25,7 @@ controller: prepare-bin
 controller-clean:
 	$(MAKE) clean -C controller
 
-home-hub: prepare-bin
-	$(CC) $(SRCS) $(CPPFLAGS) $(LDFLAGS) -o $(BIN_DIR)/home-hub
-
-clean: controller-clean
+clean-bin:
 	rm -rf $(BIN_DIR)
-	rm -f *.o
+
+clean: controller-clean clean-bin
