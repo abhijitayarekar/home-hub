@@ -20,6 +20,7 @@ namespace Controller
 		void start();
 		void stop();
 		void addCb(PubSubCb* p_handler);
+		void removeCb(PubSubCb* p_handler);
 
 	private:
 		bool m_started;

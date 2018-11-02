@@ -3,29 +3,44 @@
 
 namespace Controller
 {
-	typedef enum WorkerType {
-		WORKER_TYPE_UNKNOWN=0,
-		WORKER_TYPE_NET,
-		WORKER_TYPE_ZIGBEE,
-		WORKER_TYPE_ZWAVE
-	} WorkerType_t;
-
 	class Worker {
 		public:
-			Worker(zmq::context_t &ctx, int i_sockType)
-				: m_ctx(ctx), m_worker(m_ctx, i_sockType)
-			 {}
+			Worker() : m_active(false) {
+			}
 
 			~Worker() {
 			}
 
-			void work();
+			int start() {
+				if (m_active)
+					return 0;
+
+				m_active = true;
+				m_thread = std::thread(thread_func);
+				return 0;
+			}
+
+			void stop() {
+				if (!m_active)
+					return 0;
+
+				m_active = false;
+				m_thread.join();
+				return 0;
+			}
 
 		protected:
-			WorkerType_t m_type;
-			zmq::context_t &m_ctx;
-			zmq::socket_t m_worker;
-			char m_identity[16];
+			virtual void doWork() = 0;
+
+			void thread_func() {
+				while (m_active) {
+					doWork();
+				}
+			}
+
+		protected:
+			bool m_active;
+			std:thread m_thread;
 	};
 }
 

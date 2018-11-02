@@ -2,7 +2,7 @@
 
 #include <zmq.hpp>
 #include "pubsub.h"
-#include "worker.h"
+#include <thread>
 
 using namespace std;
 
@@ -19,12 +19,14 @@ namespace Controller
 		
 	private:
 		void onMessage(void* p_msg);
+		void localConnThreadFunc();
 
 	private:
+		thread m_localConnThread;
 		zmq::context_t m_context;
-		zmq::socket_t m_localWorkerSocket;
+		zmq::socket_t m_localConnSocket;
 		bool m_started;
 		PubSub m_pubsub;
-		std::vector<Worker*> m_localWorkers;
+		std::vector<void*> m_localConns;
 	};
 }

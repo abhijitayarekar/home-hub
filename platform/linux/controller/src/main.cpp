@@ -179,7 +179,6 @@ int main (void)
 
 #include "platdep.h"
 #include "controller.h"
-#include "worker.h"
 #include "pubsub.h"
 
 using namespace Controller;
