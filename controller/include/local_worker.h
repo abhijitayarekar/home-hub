@@ -1,22 +1,23 @@
 #pragma once
 #include <zmq.hpp>
 #include <thread>
+#include "worker.h"
 
 namespace Controller
 {
-	class LocalWorkHandler : public Worker {
+	class LocalWorker : public Worker {
 		public:
-			LocalWorkHandler(zmq::context_t &zm_ctx) :
+			LocalWorker(zmq::context_t &zm_ctx) :
 					 m_zm_ctx(zm_ctx),
 					 m_zm_socket(m_ctx, ZMQ_DEALER) {
 					 	
 					 }
 
-			~LocalWorkHandler() {
+			~LocalWorker() {
 			}
 
 			void doWork() {
-				m_worker.connect("inproc://local_work");
+				m_worker.connect(Controller::_IPC_PATH);
 
 				try {
 					while (m) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -15,14 +16,16 @@ namespace Controller
 	class PubSub
 	{
 	public:
-		PubSub();
+		PubSub() : m_name(std::move("")) {}
+		PubSub(string name) : m_name(std::move(name)) {}
 		~PubSub();
 		void start();
 		void stop();
-		void addCb(PubSubCb* p_handler);
-		void removeCb(PubSubCb* p_handler);
+		virtual void addCb(PubSubCb* p_handler);
+		virtual void removeCb(PubSubCb* p_handler);
 
-	private:
+	protected:
+		string m_name;
 		bool m_started;
 		vector<PubSubCb*> m_cb;
 	};

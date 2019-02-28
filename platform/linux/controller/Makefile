@@ -1,6 +1,6 @@
 
 CXXFLAGS += -Wall $(INCS) -I$(TOP_DIR)/controller/include -I$(PLATFORM_DIR)/controller/include -std=c++11
-LDFLAGS += -lzmq -L$(PLATFORM_DIR)/controller/libs -lpthread
+LDFLAGS += -L$(PLATFORM_DIR)/controller/libs -lpthread
 
 SRCS=	\
 	src/main.cpp \

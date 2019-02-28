@@ -1,5 +1,6 @@
 #pragma once
 #include <zmq.hpp>
+#include <thread>
 
 namespace Controller
 {
@@ -16,17 +17,17 @@ namespace Controller
 					return 0;
 
 				m_active = true;
-				m_thread = std::thread(thread_func);
+				m_thread = std::thread(&Worker::thread_func, this);
 				return 0;
 			}
 
 			void stop() {
 				if (!m_active)
-					return 0;
+					return;
 
 				m_active = false;
 				m_thread.join();
-				return 0;
+				return;
 			}
 
 		protected:
@@ -40,7 +41,7 @@ namespace Controller
 
 		protected:
 			bool m_active;
-			std:thread m_thread;
+			std::thread m_thread;
 	};
 }
 
