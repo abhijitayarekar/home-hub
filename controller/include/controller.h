@@ -3,6 +3,7 @@
 #include "pubsub.h"
 #include <thread>
 #include "discovery_manager.h"
+#include "work_manager.h"
 
 using namespace std;
 
@@ -12,12 +13,14 @@ namespace Controller
 	{
 	public:
 		Ctrlr() {
-				m_discoveryManager.addCb(this);
+				m_discovery_manager.addCb(this);
+				m_work_manager.addCb(this);
 		}
 
 		~Ctrlr() {
 			stop();
-			m_discoveryManager.removeCb(this);
+			m_discovery_manager.removeCb(this);
+			m_work_manager.removeCb(this);
 		}
 
 		void start();
@@ -28,7 +31,7 @@ namespace Controller
 
 	private:
 		bool m_started;
-		std::vector<void*> m_workers;
-		DiscoveryManager m_discoveryManager;
+		DiscoveryManager m_discovery_manager;
+		WorkManager m_work_manager;
 	};
 }
