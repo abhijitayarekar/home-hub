@@ -1,47 +1,39 @@
 #pragma once
-#include <zmq.hpp>
 #include <thread>
+#include "pubsub.h"
 
 namespace Controller
 {
-	class Worker {
+	class Worker : public PubSub {
 		public:
-			Worker() : m_active(false) {
-			}
+			Worker(const string& name) : PubSub(name) {}
 
-			~Worker() {
-			}
+			~Worker() {}
 
 			int start() {
-				if (m_active)
-					return 0;
-
-				m_active = true;
-				m_thread = std::thread(&Worker::thread_func, this);
+				PubSub::start();
+				m_thread = std::thread(&Worker::cmd_worker_thread_func, this);
 				return 0;
 			}
 
 			void stop() {
-				if (!m_active)
-					return;
-
-				m_active = false;
+				PubSub::stop();
 				m_thread.join();
-				return;
 			}
 
 		protected:
 			virtual void doWork() = 0;
 
-			void thread_func() {
-				while (m_active) {
-					doWork();
-				}
+		protected:
+			const string m_name;
+			std::thread m_thread;
+		private:
+			void cmd_worker_thread_func() {
+				publish(m_name + " Started.");
+				doWork();
+				publish(m_name + " Stopped.");
 			}
 
-		protected:
-			bool m_active;
-			std::thread m_thread;
 	};
 }
 

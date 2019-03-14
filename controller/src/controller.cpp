@@ -40,7 +40,7 @@ void Ctrlr::stop()
 	}
 }
 
-void Ctrlr::onMessage(void* p_msg)
+void Ctrlr::onMessage(const string& message)
 {
-
+	cout<<message<<endl;
 }

@@ -24,12 +24,14 @@ namespace Controller
 		
 	private:
 		void upnp_thread_func() {
+			publish(m_name + " Started.");
 			while (m_started) {
 				auto t = std::time(nullptr);
 				auto tm = *std::localtime(&t);
 				cout << m_name << " : upnp : Sleeping : " << std::put_time(&tm, "%d-%m-%Y %H-%M-%S")<<endl;
-				std::this_thread::sleep_for(std::chrono::seconds(1));
+				std::this_thread::sleep_for(std::chrono::seconds(5));
 			}
+			publish(m_name + " Stopped.");
 		}
 
 	private:

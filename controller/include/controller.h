@@ -27,7 +27,7 @@ namespace Controller
 		void stop();
 		
 	private:
-		void onMessage(void* p_msg);
+		void onMessage(const string& message);
 
 	private:
 		bool m_started;
