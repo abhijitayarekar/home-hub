@@ -4,8 +4,8 @@ LDFLAGS += -L$(PLATFORM_DIR)/controller/libs -lpthread
 
 SRCS=	\
 	src/main.cpp \
-	$(TOP_DIR)/controller/src/controller.cpp \
-	$(TOP_DIR)/controller/src/pubsub.cpp
+	$(TOP_DIR)/controller/src/controller.cpp
+
 all: controller
 
 prepare-bin:

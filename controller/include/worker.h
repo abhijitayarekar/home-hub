@@ -8,7 +8,9 @@ namespace Controller
 		public:
 			Worker(const string& name) : PubSub(name) {}
 
-			~Worker() {}
+			~Worker() {
+				stop();
+			}
 
 			int start() {
 				PubSub::start();
@@ -18,15 +20,16 @@ namespace Controller
 
 			void stop() {
 				PubSub::stop();
-				m_thread.join();
+				if (m_thread.joinable())
+					m_thread.join();
 			}
 
 		protected:
 			virtual void doWork() = 0;
 
 		protected:
-			const string m_name;
 			std::thread m_thread;
+
 		private:
 			void cmd_worker_thread_func() {
 				publish(m_name + " Started.");

@@ -193,17 +193,17 @@ static void sig_handler(int signo)
 
 int main(void)
 {
-    Ctrlr ctrl;
+    Ctrlr* ctrl = Ctrlr::getInstance();
 
     signal(SIGINT, sig_handler);
 
-    ctrl.start();
+    ctrl->start();
 
     while(keepRunning) {
         usleep(1000);
     }
     
-    ctrl.stop();
+    ctrl->stop();
 
     return EXIT_SUCCESS;
 }

@@ -9,12 +9,34 @@ using namespace std;
 
 namespace Controller
 {
+#if 0	
+	class MsgTypes {
+		public:
+			enum EnumType {
+				EVENT,
+				COMMAND
+			};
+
+			const string& strType(EnumType e_type) {
+				if (e_type == EVENT)
+					return "evnt";
+
+				if (e_type == COMMAND)
+					return "cmd";
+
+				return NULL;
+			}
+	}
+#endif
+
 	class Ctrlr : public PubSubCb
 	{
-	public:
+	private:
+		friend class Worker;
+
 		Ctrlr() {
-				m_discovery_manager.addCb(this);
-				m_work_manager.addCb(this);
+			m_discovery_manager.addCb(this);
+			m_work_manager.addCb(this);
 		}
 
 		~Ctrlr() {
@@ -23,11 +45,22 @@ namespace Controller
 			m_work_manager.removeCb(this);
 		}
 
+	public:
+		static Ctrlr* getInstance() {
+			static Ctrlr* instance = NULL;
+
+			if (instance == NULL)
+				instance = new Ctrlr();
+
+			return instance;
+		}
+
 		void start();
 		void stop();
 		
 	private:
 		void onMessage(const string& message);
+		void* subscribeToEvent(string &event);
 
 	private:
 		bool m_started;
