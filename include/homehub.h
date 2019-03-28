@@ -20,15 +20,47 @@
 
 #include <iostream>
 #include <string>
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 namespace HomeHub
 {
-  enum ret_t
-  {
-	no_error
-  };
+	enum ret_t
+	{
+		no_error
+	};
+
+	enum HH_MSG_TYPE_E {
+		MSG_MIN,
+		EVENT,
+		COMMAND,
+		MSG_MAX
+	};
+
+	const static string HH_MSG_TYPE_STR[] = {
+		"-invalid",
+		"evnt",
+		"cmd",
+		"invalid"
+	};
+#if 0
+	static const string& getMsgTypeStr(HH_MSG_TYPE_E e_type) {
+		if (e_type <= MSG_MIN || e_type >= MSG_MAX)
+			return HH_MSG_TYPE_STR[MSG_MAX];
+
+		return HH_MSG_TYPE_STR[e_type];
+	}
+
+	static const HH_MSG_TYPE_E getMsgType(const string& msg_str) {
+		for (int i = MSG_MIN; i < MSG_MAX; i++) {
+			if (msg_str == HH_MSG_TYPE_STR[i])
+				return (HH_MSG_TYPE_E)i;
+		}
+		return MSG_MIN;
+	}
+#endif
 }
 
 #endif // HOMEHUB_H

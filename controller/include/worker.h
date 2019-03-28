@@ -1,5 +1,6 @@
 #pragma once
 #include <thread>
+#include <mutex>
 #include "pubsub.h"
 
 namespace Controller
@@ -24,11 +25,16 @@ namespace Controller
 					m_thread.join();
 			}
 
+			void procesMsg(json& msg) {
+
+			}
+
 		protected:
 			virtual void doWork() = 0;
 
 		protected:
 			std::thread m_thread;
+			std::mutex m_msg_mutex;
 
 		private:
 			void cmd_worker_thread_func() {

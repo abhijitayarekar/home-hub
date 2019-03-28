@@ -1,5 +1,6 @@
 #pragma once
 
+#include "homehub.h"
 #include "pubsub.h"
 #include <thread>
 #include "discovery_manager.h"
@@ -9,25 +10,6 @@ using namespace std;
 
 namespace Controller
 {
-#if 0	
-	class MsgTypes {
-		public:
-			enum EnumType {
-				EVENT,
-				COMMAND
-			};
-
-			const string& strType(EnumType e_type) {
-				if (e_type == EVENT)
-					return "evnt";
-
-				if (e_type == COMMAND)
-					return "cmd";
-
-				return NULL;
-			}
-	}
-#endif
 
 	class Ctrlr : public PubSubCb
 	{
