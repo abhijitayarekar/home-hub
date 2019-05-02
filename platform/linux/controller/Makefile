@@ -4,7 +4,7 @@ LDFLAGS += -L$(PLATFORM_DIR)/controller/libs -lpthread
 
 SRCS=	\
 	src/main.cpp \
-	$(TOP_DIR)/controller/src/controller.cpp
+	$(TOP_DIR)/controller/src/*.cpp
 
 all: controller
 

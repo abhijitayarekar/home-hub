@@ -2,6 +2,7 @@
 #include <thread>
 #include <mutex>
 #include "pubsub.h"
+#include "hh_json.h"
 
 namespace Controller
 {
@@ -13,21 +14,11 @@ namespace Controller
 				stop();
 			}
 
-			int start() {
-				PubSub::start();
-				m_thread = std::thread(&Worker::cmd_worker_thread_func, this);
-				return 0;
-			}
+			int start();
 
-			void stop() {
-				PubSub::stop();
-				if (m_thread.joinable())
-					m_thread.join();
-			}
+			void stop();
 
-			void procesMsg(json& msg) {
-
-			}
+			void procesMsg(HhJson* msg);
 
 		protected:
 			virtual void doWork() = 0;
@@ -37,12 +28,7 @@ namespace Controller
 			std::mutex m_msg_mutex;
 
 		private:
-			void cmd_worker_thread_func() {
-				publish(m_name + " Started.");
-				doWork();
-				publish(m_name + " Stopped.");
-			}
-
+			void cmd_worker_thread_func();
 	};
 }
 

@@ -20,28 +20,12 @@ namespace Controller
 			}
 		}
 
-		void start() {
-			PubSub::start();
-
-			for (CmdWorker* worker : m_workers) {
-				worker->start();
-			}
-			publish(m_name + " Started.");
-		}
+		void start();
 		
-		void stop() {
-			for (CmdWorker* worker : m_workers) {
-				worker->stop();
-			}
-
-			PubSub::stop();
-			publish(m_name + " Stopped.");
-		}
+		void stop();
 
 	private:
-		void onMessage(const string& message) {
-			cout << message << endl;
-		}
+		void onMessage(const string& message);
 
 	private:
 		std::vector<CmdWorker*> m_workers;
