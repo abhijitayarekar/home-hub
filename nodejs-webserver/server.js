@@ -1,6 +1,10 @@
-﻿var http = require('http');
+﻿'use strict';
+
+var express = require('express');
 var port = process.env.port || 1337;
-http.createServer(function (req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World\n');
-}).listen(port);
+
+var app = express();
+
+app.listen(port, function() {
+	console.log('Web Server listening on : ' + port);
+});
