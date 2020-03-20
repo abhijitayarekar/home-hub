@@ -8,6 +8,7 @@
     "email": "abhijitayarekar@gmail.com"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-ssdp": "^4.0.0"
   }
 }
