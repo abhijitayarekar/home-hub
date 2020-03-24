@@ -8,11 +8,9 @@ namespace Controller
 {
 	class Worker : public PubSub {
 		public:
-			Worker(const string& name) : PubSub(name) {}
+			Worker(const string& name);
 
-			~Worker() {
-				stop();
-			}
+			~Worker();
 
 			int start();
 

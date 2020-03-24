@@ -4,6 +4,14 @@
 
 using namespace Controller;
 
+CmdWorker::CmdWorker(const string& name) : Worker(name)
+{
+}
+
+CmdWorker::~CmdWorker()
+{
+}
+
 void CmdWorker::doWork() {
 	while (m_started) {
 		auto t = std::time(nullptr);

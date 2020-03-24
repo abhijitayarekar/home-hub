@@ -3,6 +3,15 @@
 using namespace std;
 using namespace Controller;
 
+PubSub::PubSub(const string& name) : m_name(name)
+{
+}
+
+PubSub::~PubSub()
+{
+	for(PubSubCb* cb : this->m_cb)
+		cout << m_name << " : Removing pubsub calback handler: "<< cb << endl;
+}
 
 void PubSub::start()
 {

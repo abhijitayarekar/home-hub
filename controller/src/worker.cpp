@@ -3,6 +3,15 @@
 
 using namespace Controller;
 
+Worker::Worker(const string& name) : PubSub(name)
+{
+}
+
+Worker::~Worker()
+{
+    stop();
+}
+
 int Worker::start()
 {
 	PubSub::start();

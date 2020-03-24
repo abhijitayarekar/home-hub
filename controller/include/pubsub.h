@@ -17,12 +17,9 @@ namespace Controller
 	class PubSub
 	{
 	public:
-		PubSub(const string& name) : m_name(name) {}
-		
-		~PubSub() {
-			for(PubSubCb* cb : this->m_cb)
-				cout << m_name << " : Removing pubsub calback handler: "<< cb << endl;
-		}
+		PubSub(const string& name);
+
+		~PubSub();
 
 		void start();
 

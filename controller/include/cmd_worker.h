@@ -5,10 +5,8 @@ namespace Controller
 {
 	class CmdWorker : public Worker {
 		public:
-			CmdWorker(const string& name) : Worker(name) {}
-
-			~CmdWorker() {}
-
+			CmdWorker(const string& name);
+			~CmdWorker();
 			void doWork();
 	};
 }

@@ -18,12 +18,32 @@
 
 using namespace Controller;
 
+Ctrlr* Ctrlr::getInstance()
+{
+	static Ctrlr* instance = NULL;
+
+	if (instance == NULL)
+		instance = new Ctrlr();
+
+	return instance;
+}
+
+Ctrlr::Ctrlr()
+{
+	m_work_manager.addCb(this);
+}
+
+Ctrlr::~Ctrlr()
+{
+	stop();
+	m_work_manager.removeCb(this);
+}
+
 void Ctrlr::start() 
 {
 	if (!this->m_started) {
 		cout<<"Controller : Starting"<<endl;
 		this->m_started = true;
-		m_discovery_manager.start();
 		m_work_manager.start();
 		cout<<"Controller Started"<<endl;
 	}
@@ -34,7 +54,6 @@ void Ctrlr::stop()
 	if(this->m_started) {
 		cout<<"Controller : Stopping"<<endl;
 		this->m_started = false;
-		m_discovery_manager.stop();
 		m_work_manager.stop();
 		cout<<"Controller Stopped"<<endl;
 	}
