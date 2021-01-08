@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "schedule": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "date"
+        },
+        "end": {
+          "type": "date"
+        },
+        "days": {
+          "type": "array",
+          "contains": {
+            "type": "string",
+            "enum": [
+              "sunday", "monday", "tuesday", "wednesday",
+              "thursday", "friday", "saturday"
+            ]
+          }
+        },
+        "times": {
+          "type": "array",
+          "contains": {
+            "type": "time"
+          } 
+        }
+      },
+      "required": [ "times" ]
+    },
+    "feeder_open_duratoin": {
+      "type": "number",
+      "minimum": 100,
+      "maximum": 1000
+    },
+    "feeder_open_angle": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 180
+    }
+  },
+  "FishFeederApi": {
+    "version": "1.0.0",
+    "GET": {
+      "schedule/": {},
+      "last_feed/": {},
+      "feeder_open_duration/": {},
+      "feeder_open_angle/": {}
+    },
+    "POST": {
+      "schedule/": { "#schedule" },
+      "feed/": {},
+      "feeder_open_duration/": { "#time" },
+      "feeder_open_angle/": { "#feeder_open_angle" }
+    }  
+  }
+}
