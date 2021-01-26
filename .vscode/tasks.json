@@ -1,0 +1,46 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Windows Clean",
+			"command": "RD -Force -Recurse ${workspaceFolder}\\bin",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "Windows Prepare",
+			"command": "MD ${workspaceFolder}\\bin",
+			"problemMatcher": []
+		},
+		{
+			"type": "cppbuild",
+			"label": "Windows build",
+			"command": "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-I${workspaceFolder}\\server\\include",
+				"-I${workspaceFolder}\\server\\controller\\include",
+				"-I${workspaceFolder}\\server\\platform\\windows\\Controller",
+				"${workspaceFolder}\\server\\controller\\src\\cmd_worker.cpp",
+				"${workspaceFolder}\\server\\controller\\src\\controller.cpp",
+				"${workspaceFolder}\\server\\controller\\src\\pubsub.cpp",
+				"${workspaceFolder}\\server\\controller\\src\\work_manager.cpp",
+				"${workspaceFolder}\\server\\controller\\src\\worker.cpp",
+				"${workspaceFolder}\\server\\platform\\windows\\Controller\\HomeController.cpp",
+				"-o",
+				"${workspaceFolder}\\bin\\controller.exe"
+			],
+			"options": {
+				"cwd": "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: \"C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe\""
+		}
+	]
+}
