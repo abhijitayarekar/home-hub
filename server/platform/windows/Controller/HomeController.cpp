@@ -1,10 +1,8 @@
 // Controller.cpp : main project file.
 
-#include "stdafx.h"
-
+#include <unistd.h>
 #include "platdep.h"
 #include "controller.h"
-#include "worker.h"
 #include "pubsub.h"
 
 using namespace Controller;
@@ -13,17 +11,15 @@ static bool keepRunning = true;
 
 int main()
 {
-	Ctrlr ctrl;
+	Ctrlr* ctrl = Ctrlr::getInstance();
 
-	ctrl.start();
+	ctrl->start();
 
 	while (keepRunning) {
-		plat_sleep(1000);
+		usleep(1000);
 	}
 
-	ctrl.stop();
-
-	return EXIT_SUCCESS;
+	ctrl->stop();
 
     return 0;
 }
