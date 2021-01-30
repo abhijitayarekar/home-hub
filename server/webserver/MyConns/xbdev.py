@@ -4,25 +4,21 @@ import time
 import logging
 
 def xb_th_func(xb):
-    logging.debug("(" + xb.name + "):" + xb.port + " Opening.")
-    xb.ser = serial.Serial(xb.port, 9600, timeout=.5)
+    xb.ser = serial.Serial(xb.port, 9600)
     xb.ser.flush()
     while xb.keep_running == True:
         if xb.ser.in_waiting:
-            data = xb.ser.read(size=1)
-            cmd_sz = int(data[0:1])
-            if cmd_sz > 0:
-                data = xb.ser.read(size=cmd_sz)
-                xb.cb(xb.name, data)
-        time.sleep(1)
+            data = xb.ser.read(size=xb.ser.in_waiting)
+            xb.cb(xb, data)
+        else:
+            time.sleep(1)
     logging.debug("(" + xb.name + "):" + xb.port + " Closing.")
     xb.ser.close()
 
 class XbDev:
-    def __init__(self, name, port, cmd_sz, cb = None):
+    def __init__(self, name, port, cb = None):
         self.name = name
         self.port = port
-        self.cmd_sz = cmd_sz
         self.cb = cb
         self.keep_running = False
         self.th = threading.Thread(target=xb_th_func, args=(self,))
