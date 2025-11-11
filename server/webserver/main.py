@@ -1,5 +1,6 @@
 from flask import Flask, url_for, request
 from flask_restful import Api
+import sys
 import time
 import logging
 import os
@@ -8,10 +9,14 @@ import netifaces as ni
 from MyLibs.ssdp import SSDPServer
 from MyLibs.upnp_http_server import UPNPHTTPServer
 #from MyApps import *
-import zmq
-import threading
-import time
 from threading import Event
+
+# Add path to import zmq_node
+_zmq_node_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'python', 'classes'))
+if _zmq_node_path not in sys.path:
+    sys.path.insert(0, _zmq_node_path)
+
+from zmq_node import ZMQNode  # type: ignore
 
 exit = Event()
 
@@ -76,70 +81,74 @@ def stop_device_discovery(ssdp_server, http_server):
 	http_server.stop()
 
 def start_my_apps():
-  for f in os.listdir("./MyApps"):
-    if f.endswith('.py') and not f.startswith('_'):
-      f = f[:-3]
-      my_app = globals()[f]()
-      my_apps[f.lower()] = my_app
-      my_app.start()
+	"""Dynamically load and start apps from MyApps directory"""
+	import importlib
+	myapps_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'MyApps')
+	
+	if not os.path.exists(myapps_dir):
+		logging.warning(f"MyApps directory not found at: {myapps_dir}")
+		return
+	
+	for f in os.listdir(myapps_dir):
+		if f.endswith('.py') and not f.startswith('_'):
+			module_name = f[:-3]
+			try:
+				# Dynamically import the module
+				module = importlib.import_module(f'MyApps.{module_name}')
+				# Get the class from the module (assumes class name matches module name)
+				app_class = getattr(module, module_name)
+				# Instantiate and start the app
+				my_app = app_class()
+				my_apps[module_name.lower()] = my_app
+				my_app.start()
+				logging.info(f"Started app: {module_name}")
+			except Exception as e:
+				logging.error(f"Failed to load app {module_name}: {e}")
 
 def stop_my_apps():
-  for my_app in my_apps.values():
-      my_app.stop()
+	for my_app in my_apps.values():
+		my_app.stop()
 
-def zmq_th_func(zmq_socket):
-	zmq_poller = zmq.Poller()
-	zmq_poller.register(zmq_socket, zmq.POLLIN)
-
-	while not exit.is_set():
-		print("Sending hello")
-		try:
-			zmq_socket.send(b"Hello")
-		except:
-			print("Error : sending")
-			exit.wait(5)
-			continue
-
-		try:
-				socks = dict(zmq_poller.poll())
-		except:
-			print("Error : polling")
-			continue
-
-		if zmq_socket in socks:
-			try:
-				message = zmq_socket.recv()
-			except:
-				print("Error : receiving")
-				continue
-			print("Received reply %s" % (message))
-
-	print("zmq th func returning")
+def zmq_request_handler(request):
+	"""Handle incoming ZMQ requests"""
+	print(f"Received request: {request}")
+	
+	# Process the request and return a response
+	if request.get("type") == "ping":
+		return {"status": "success", "message": "pong"}
+	elif request.get("type") == "status":
+		return {"status": "success", "apps": list(my_apps.keys())}
+	else:
+		return {"status": "error", "message": "Unknown request type"}
 
 def start_zmq():
-	zmq_ctx = zmq.Context()
-	zmq_socket = zmq_ctx.socket(zmq.REQ)
-	zmq_socket.connect("tcp://localhost:5571")
+	# Create ZMQNode with pub/sub on port 5555 and req/rep on port 5571
+	try:
+		zmq_node = ZMQNode(
+			name="webserver",
+			pub_sub_port=5555,
+			req_rep_port=5572,
+			request_callback=zmq_request_handler
+		)
+		zmq_node.start()
+		return zmq_node
+	except Exception as e:
+		logging.error(f"Failed to start ZMQ node: {e}")
+		logging.error("Hint: Port may be in use. Run: netstat -ano | findstr :5571")
+		raise
 
-	zmq_th = threading.Thread(target=zmq_th_func, args=(zmq_socket,))
-	zmq_th.start()
-
-	return zmq_socket, zmq_th
-
-def stop_zmq(zmq_socket, zmq_th):
-	zmq_socket.disconnect("tcp://localhost:5571")
-	zmq_socket.close()
-	zmq_th.join()
+def stop_zmq(zmq_node):
+	zmq_node.stop()
 
 if __name__ == "__main__":
 	logging.basicConfig(level=logging.INFO)
 
-	zmq_socket, zmq_th = start_zmq()
+	zmq_node = start_zmq()
 #	start_my_apps()
 	ssdp_server, http_server = start_device_discovery()
-	app.run(debug=True, port=9090, host='0.0.0.0', use_reloader=True)
+	app.run(debug=True, port=9090, host='0.0.0.0', use_reloader=False)
 	exit.set()
-	stop_zmq(zmq_socket, zmq_th)
+	stop_zmq(zmq_node)
 
 	stop_device_discovery(ssdp_server, http_server)
 #	stop_my_apps()
